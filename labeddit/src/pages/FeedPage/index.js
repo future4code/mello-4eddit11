@@ -1,6 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Get } from '../../services/api';
 
+import { 
+  FeedContainer,
+  FeedLeft,
+  CardContainer,
+  FeedRight
+}
+from './styles';
+
+import { Card } from 'antd';
+
 function FeedPage() {
 
   const token = window.localStorage.getItem('token');
@@ -21,7 +31,6 @@ function FeedPage() {
     await Get('/posts', key)
     .then(response =>{
       setPosts(response.data.posts)
-      console.log(response)
     })
     .catch(error =>{
       console.log(error)
@@ -29,13 +38,25 @@ function FeedPage() {
 
   }
 
-  console.log(posts)
-  console.log(key)
-
   return (
-    <>
-      <p>Fedd Page</p>
-    </>
+    <FeedContainer>
+      <FeedLeft />
+      <CardContainer>
+        {posts.map(post => {
+          return(
+            <Card key={post.id} hoverable  extra={<a href="#">Abrir</a>}
+            title={post.username}
+              style={{ 
+                width: '48.1vw',
+                marginBottom: '2.1vh' }}>
+              {post.text}
+            </Card>
+          )
+        })}
+
+      </CardContainer>
+      <FeedRight />
+    </FeedContainer>
   );
 }
 
