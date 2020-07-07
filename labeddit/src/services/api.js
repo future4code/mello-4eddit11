@@ -5,8 +5,8 @@ const conection = axios.create({
   headers: { 'content-type': 'application/json' },
 });
 
-export function Get(url) {
-  return conection.get(url);
+export function Get(url, key) {
+  return conection.get(url, key);
 }
 
 export function Post(url, data) {
