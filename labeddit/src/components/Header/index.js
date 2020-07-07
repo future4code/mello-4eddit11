@@ -88,18 +88,18 @@ function Header() {
         </Col>
 
         <Col span={6} className='gutter-row'>
-          <Space>
+          <Space
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
             <Button type='text' style={{ color: '#fafafa' }}>
               Popular
             </Button>
             <Button type='text' style={{ color: '#fafafa' }}>
               All
-            </Button>
-            <Button type='text' style={{ color: '#fafafa' }}>
-              Chat
-            </Button>
-            <Button type='text' style={{ color: '#fafafa' }}>
-              Messages
             </Button>
             <Button type='text' style={{ color: '#fafafa' }}>
               Create Post
