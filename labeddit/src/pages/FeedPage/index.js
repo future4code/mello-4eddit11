@@ -45,10 +45,10 @@ function FeedPage() {
         {posts.map(post => {
           return(
             <Card key={post.id} hoverable  extra={<a href="#">Abrir</a>}
-            title={post.username}
+            title={post.username} bordered="true"
               style={{ 
-                width: '48.1vw',
-                marginBottom: '2.1vh' }}>
+                width: '48.3vw',
+                marginBottom: '2.5vh' }}>
               {post.text}
             </Card>
           )
