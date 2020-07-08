@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Get } from '../../services/api';
+import CreatePost from '../../components/CreatePost/index';
 
 import { 
   FeedContainer,
@@ -42,6 +43,7 @@ function FeedPage() {
     <FeedContainer>
       <FeedLeft />
       <CardContainer>
+      <CreatePost />
         {posts.map(post => {
           return(
             <Card key={post.id} hoverable  extra={<a href="#">Abrir</a>}
