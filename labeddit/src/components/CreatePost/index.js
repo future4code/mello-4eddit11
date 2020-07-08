@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import { Post } from '../../services/api';
-import { PostPageContainer } from './styles';
+import { 
+  CreatePostContainer,
+  CreateLeft,
+  PostContainer,
+  CreateRight
+} 
+from './styles';
 
 import { 
   Form,
@@ -16,18 +22,23 @@ import 'antd/dist/antd.css';
 
 function CreatePost() {
 
-  const [text, setText] = useState();
-  const [title, setTitle] = useState();
+  const [text, setText] = useState('');
+  const [title, setTitle] = useState('');
   const [resp, setResp] = useState();
   const { TextArea } = Input;
+  const [form] = Form.useForm();
 
   const token = window.localStorage.getItem('token');
 
+  const onReset = () => {
+    form.resetFields();
+  };
+
   let key = {
     headers: {
-        auth: token
+      Authorization: token
     }
-}
+  }
 
   const body = {
     text: text,
@@ -36,69 +47,91 @@ function CreatePost() {
 
   const Postar = async() => {
 
-    await Post('/posts', key, body)
+    await Post('/posts', body, key)
     .then(response => {
-      setResp(response.data.success)
+      onReset();
+      setResp(response.data.success);
       console.log(response)
     })
     .catch(error => {
-      console.log(error)
+      onReset();
+      console.log(error);
     })
   }
-
-  console.log(resp)
   
   return (
 
-    <PostPageContainer>
-    <Form onSubmitCapture={Postar}>
-      <Row gutter={[16, 16]}>
-        <Col span={8}>
+    <CreatePostContainer>
+      
+        
+          <Form onSubmitCapture={Postar} form={form} style={{marginTop: '2vh'}}>
+            <Row gutter={[6, 6]}>
+              <Col span={24}>
 
-          <Form.Item
-          label="Título: "
-          name="titulo"
-          rules={[
-            {
-              required: true,
-              message: 'Insira o título da publicação',
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
+                <Form.Item
+                value={title} onChange={ (t) => setTitle(t.target.value) }
+                label="Título: "
+                name="titulo"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Insira o título da publicação',
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
 
-        </Col>
-      </Row>
+              </Col>
+            </Row>
 
-      <Row gutter={[16, 16]}>
-        <Col span={8}>
+            <Row gutter={[16, 16]}>
+              <Col span={24}>
 
-          <Form.Item
-            label="Mensagem: "
-            name="mensagem"
-            rules={[
-              {
-                required: true,
-                message: 'Insira a mensagem da publicação',
-              },
-            ]}
-          >
-            <TextArea autoSize={{ minRows: 2, maxRows: 7 }}/>
-          </Form.Item>
+                <Form.Item
+                  value={text} onChange={ (m) => setText(m.target.value)}
+                  label="Mensagem: "
+                  name="mensagem"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Insira a mensagem da publicação',
+                    },
+                  ]}
+                >
+                  <TextArea autoSize={{ minRows: 2, maxRows: 7 }}/>
+                </Form.Item>
 
-        </Col>
-      </Row>
+              </Col>
+            </Row>
 
-      <Row>
-      <Col span={8}>
-          <Button type="primary" htmlType="submit" >
-            Comentar
-          </Button>
-        </Col>
-      </Row>
-    </Form>
-    </PostPageContainer>
+            <Row>
+            <Col span={24} style={{display: 'flex', justifyContent: 'flex-end'}}>
+
+              <Button htmlType="button" onClick={onReset} type="secondary"
+              style={{
+                marginBottom: '2vh',
+                }}
+              >
+                Reset
+              </Button>
+
+              <Button type="primary" htmlType="submit"
+               style={{
+                 marginLeft: '2vh',
+                 marginBottom: '2vh',
+                 marginRight: '2vh'}}
+              >
+                Comentar
+              </Button>
+
+              </Col>
+            </Row>
+          </Form>
+        
+    
+    </CreatePostContainer>
+
   );
 }
 
