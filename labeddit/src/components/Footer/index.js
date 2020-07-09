@@ -10,11 +10,6 @@ import {
 import { BulbTwoTone } from "@ant-design/icons";
 
 function Footer() {
-  const user = window.localStorage.getItem("user");
-  const username = user.username;
-
-  console.log(user);
-
   return (
     <FooterContainer>
       <FooterMenu>
