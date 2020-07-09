@@ -36,7 +36,6 @@ function Footer() {
       <hr />
 
     </FooterContainer>
-
   );
 }
 
