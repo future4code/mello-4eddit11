@@ -23,10 +23,6 @@ function FeedPage() {
     }
   }
 
-  useEffect(() =>{
-    getPosts()
-  }, [setPosts])
-
   const getPosts = async() => {
 
     await Get('/posts', key)
@@ -36,14 +32,18 @@ function FeedPage() {
     .catch(error =>{
       console.log(error)
     })
-
   }
+
+  useEffect(() =>{
+    getPosts()
+  }, [] );
 
   return (
     <FeedContainer>
       <FeedLeft />
       <CardContainer>
-      <CreatePost />
+      <CreatePost getPosts={getPosts} />
+      <hr />
         {posts.map(post => {
           return(
             <Card key={post.id} hoverable  extra={<a href="#">Abrir</a>}
