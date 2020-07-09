@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   Layout,
   Row,
@@ -10,20 +11,44 @@ import {
   Button,
   Input,
 } from 'antd';
-import {
-  RedditCircleFilled,
-  DownOutlined,
-  FundFilled,
-  EditFilled,
-} from '@ant-design/icons';
+import { DownOutlined } from '@ant-design/icons';
+import SessionContext from '../../contexts/SessionContext';
 
 import 'antd/dist/antd.css';
 
 function Header() {
+  const { session, setSession } = useContext(SessionContext);
+  const history = useHistory();
+
   const { Header } = Layout;
   const { Title } = Typography;
-  const { Text } = Typography;
   const { Search } = Input;
+
+  // Para deslogar é necessário limpar os dados
+  // do localstorage e da sessão (contexto)
+  const logout = async () => {
+    // Cópia de uma sessão limpa
+    const clearedSession = {
+      authenticated: false,
+      token: '',
+      user: {
+        id: '',
+        username: '',
+        email: '',
+      },
+    };
+    // Remoção dos dados do localstorage
+    window.localStorage.removeItem('token');
+    window.localStorage.removeItem('user');
+    // Atualização da sessão utilizada no contexto
+    setSession(clearedSession);
+  };
+
+  const goToLogin = () => {
+    if (!session.authenticated) {
+      history.push('/');
+    }
+  };
 
   const navMenu = (
     <Menu>
@@ -37,7 +62,9 @@ function Header() {
     <Menu>
       <Menu.Item key='0'>Profile</Menu.Item>
       <Menu.Item key='1'>Settings</Menu.Item>
-      <Menu.Item key='3'>Log Out</Menu.Item>
+      <Menu.Item onClick={logout} key='3'>
+        Log Out
+      </Menu.Item>
     </Menu>
   );
 
@@ -46,7 +73,11 @@ function Header() {
       <Row gutter={16}>
         <Col span={2} className='gutter-row'>
           <Space align='center'>
-            <Title level={4} style={{ color: '#FF4500', cursor: 'pointer' }}>
+            <Title
+              level={4}
+              style={{ color: '#FF4500', cursor: 'pointer' }}
+              onClick={goToLogin}
+            >
               Labeddit
             </Title>
           </Space>
@@ -95,13 +126,25 @@ function Header() {
               justifyContent: 'center',
             }}
           >
-            <Button type='text' style={{ color: '#fafafa' }}>
+            <Button
+              onClick={() => history.push('/feed')}
+              type='text'
+              style={{ color: '#fafafa' }}
+            >
               Popular
             </Button>
-            <Button type='text' style={{ color: '#fafafa' }}>
+            <Button
+              onClick={() => history.push('/feed')}
+              type='text'
+              style={{ color: '#fafafa' }}
+            >
               All
             </Button>
-            <Button type='text' style={{ color: '#fafafa' }}>
+            <Button
+              onClick={() => history.push('/createpost')}
+              type='text'
+              style={{ color: '#fafafa' }}
+            >
               Create Post
             </Button>
           </Space>
@@ -116,18 +159,28 @@ function Header() {
             justifyContent: 'space-between',
           }}
         >
-          <Dropdown overlay={profileMenu} trigger={['click']}>
+          {session.authenticated ? (
+            <Dropdown overlay={profileMenu} trigger={['click']}>
+              <Button
+                style={{
+                  width: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                }}
+              >
+                <span>Username</span> <DownOutlined />
+              </Button>
+            </Dropdown>
+          ) : (
             <Button
-              style={{
-                width: '100%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}
+              type='primary'
+              onClick={goToLogin}
+              style={{ width: '100%', maxWidth: '150px' }}
             >
-              <span>Username</span> <DownOutlined />
+              Join
             </Button>
-          </Dropdown>
+          )}
         </Col>
       </Row>
     </Header>
