@@ -173,7 +173,10 @@ function Header() {
                   justifyContent: 'space-between',
                 }}
               >
-                <span>Username</span> <DownOutlined />
+                <span>
+                  {session.authenticated ? session.user.username : 'username'}
+                </span>{' '}
+                <DownOutlined />
               </Button>
             </Dropdown>
           ) : (
