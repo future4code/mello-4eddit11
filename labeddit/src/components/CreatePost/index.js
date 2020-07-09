@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Post } from '../../services/api';
 import { 
   CreatePostContainer,
@@ -20,18 +20,18 @@ from 'antd';
 import 'antd/dist/antd.css';
 
 
-function CreatePost() {
+function CreatePost( { getPosts } ) {
 
   const [text, setText] = useState('');
   const [title, setTitle] = useState('');
-  const [resp, setResp] = useState();
+  const [resp, setResp] = useState(false);
   const { TextArea } = Input;
   const [form] = Form.useForm();
 
   const token = window.localStorage.getItem('token');
 
   const onReset = () => {
-    form.resetFields();
+    form.resetFields()
   };
 
   let key = {
@@ -49,27 +49,39 @@ function CreatePost() {
 
     await Post('/posts', body, key)
     .then(response => {
-      onReset();
-      setResp(response.data.success);
+      setResp(response.data.success)
+      verify()
       console.log(response)
     })
     .catch(error => {
-      onReset();
-      console.log(error);
+      console.log(error)
     })
   }
-  
+
+  useEffect(() => {
+    verify()
+
+  }, [resp])
+
+  const verify = () => {
+    
+    if(resp === true){
+      getPosts()
+    }
+  }
+
+  console.log (resp)
   return (
 
     <CreatePostContainer>
       
         
-          <Form onSubmitCapture={Postar} form={form} style={{marginTop: '2vh'}}>
+          <Form  form={form} style={{marginTop: '2vh'}}>
             <Row gutter={[6, 6]}>
               <Col span={24}>
 
                 <Form.Item
-                value={title} onChange={ (t) => setTitle(t.target.value) }
+                value={title} onChange={ (t) =>  setTitle(t.target.value) }
                 label="Título: "
                 name="titulo"
                 rules={[
@@ -108,13 +120,9 @@ function CreatePost() {
             <Row>
             <Col span={24} style={{display: 'flex', justifyContent: 'flex-end'}}>
 
-              <Button htmlType="button" onClick={onReset} type="secondary"
-              style={{
-                marginBottom: '2vh',
-                }}
-              >
+              <button onClick={Postar}>
                 Reset
-              </Button>
+              </button>
 
               <Button type="primary" htmlType="submit"
                style={{

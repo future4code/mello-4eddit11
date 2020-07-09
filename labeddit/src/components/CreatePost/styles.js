@@ -4,14 +4,15 @@ export const CreatePostContainer = styled.div `
 
     display: flex;
     flex-direction: column;
-    background-color: #BDBAB5;
+    background-color: #C9CCC1;
     margin-bottom: 1.4vh;
     padding: 1.5vh;
+    border: darkgray 1px solid;
 `
 /*
 export const CreateLeft = styled.div `
 
-    width: 25vw;
+    width: 25vw; C9CCC1
     max-height: 25vh;
 `
 
