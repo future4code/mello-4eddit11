@@ -33,6 +33,7 @@ function LoginPage() {
       window.localStorage.setItem('user', JSON.stringify(response.data.user));
       // Sessão utilizada no contexto é atualizada com os dados recebidos
       setSession(newSession);
+      history.push('/feed');
     } catch (error) {
       console.error('Login Request Denied', error.response);
 
