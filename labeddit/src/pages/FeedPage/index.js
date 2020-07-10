@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Get } from '../../services/api';
+import { useHistory } from 'react-router-dom'
 
 import { 
   FeedContainer,
@@ -12,7 +13,7 @@ from './styles';
 import { Card } from 'antd';
 
 function FeedPage() {
-
+  const history = useHistory();
   const token = window.localStorage.getItem('token');
   const [posts, setPosts] = useState([]);
 
@@ -24,6 +25,7 @@ function FeedPage() {
 
   useEffect(() =>{
     getPosts()
+    verifyToken()
   }, [setPosts])
 
   const getPosts = async() => {
@@ -36,6 +38,13 @@ function FeedPage() {
       console.log(error)
     })
 
+  }
+
+  const verifyToken = () => {
+
+    if(token === null){
+      history.push('/register')
+    }
   }
 
   return (
