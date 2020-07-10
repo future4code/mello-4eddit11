@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import "antd/dist/antd.css";
 import { Form, Input, Tooltip, Button } from "antd";
 import { QuestionCircleOutlined, CheckCircleFilled } from "@ant-design/icons";
@@ -37,7 +38,10 @@ const tailFormItemLayout = {
 };
 
 const RegisterPage = () => {
+  const history = useHistory();
   const [form] = Form.useForm();
+
+  const clearInput = (values) => {};
 
   const createUser = (values) => {
     const body = {
@@ -46,19 +50,15 @@ const RegisterPage = () => {
       username: values.user,
     };
 
-    const clearInput = (values) => {};
-
     axios
       .post(
         "https://us-central1-labenu-apis.cloudfunctions.net/labEddit/signup",
         body
       )
       .then((response) => {
-        console.log(response.data);
+        alert("Cadastro com sucesso!");
+        history.push("/");
       });
-
-    console.log("Received values of form: ", values);
-    console.log(body);
   };
 
   return (
