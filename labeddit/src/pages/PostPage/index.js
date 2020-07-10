@@ -1,5 +1,5 @@
 import React from 'react';
-import { PostDetailContainer } from 'styled-components';
+import { PostDetailContent } from './styles';
 import { useParams, useHistory } from 'react-router-dom';
 
 
@@ -14,9 +14,10 @@ function PostDetail(){
 
     return(
 
-        <PostDetailContainer>
-
-        </PostDetailContainer>
+      <PostDetailContent>
+        olá
+      </PostDetailContent>
 
     );
 }
+export default PostDetail;
