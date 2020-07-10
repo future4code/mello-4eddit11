@@ -48,7 +48,9 @@ function Header() {
   const goToLogin = () => {
     if (!session.authenticated) {
       history.push('/');
-    }
+    } else (
+      history.push('/feed')
+    )
   };
 
   const goToRegister = () => {
