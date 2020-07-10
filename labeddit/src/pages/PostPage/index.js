@@ -1,14 +1,22 @@
-import React, { useState } from "react";
+import React from 'react';
+import { PostDetailContainer } from 'styled-components';
+import { useParams, useHistory } from 'react-router-dom';
 
-function PostPage() {
-  
-  return (
 
-    <>
-      Olá eu sou a página de Post Detail 
-      conforme API - Recebo ID conforme routes
-    </>
-  );
+function PostDetail(){
+
+    const PathParams = useParams();
+    const history = useHistory();
+
+    let key = window.localStorage.getItem('token');
+
+    
+
+    return(
+
+        <PostDetailContainer>
+
+        </PostDetailContainer>
+
+    );
 }
-
-export default PostPage;
