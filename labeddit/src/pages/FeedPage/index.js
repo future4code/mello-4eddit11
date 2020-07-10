@@ -43,7 +43,7 @@ function FeedPage() {
   const verifyToken = () => {
 
     if(token === null){
-      history.push('/register')
+      history.push('/')
     }
   }
 
