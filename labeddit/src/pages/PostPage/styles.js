@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const PostDetailContainer = styled.main `
+export const PostDetailContent = styled.div `
 
     max-width: 100vw;
     height: auto;

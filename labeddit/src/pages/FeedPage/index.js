@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Get } from '../../services/api';
-import { useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom';
 import CreatePost from '../../components/CreatePost/index';
 
 import { 
@@ -55,7 +55,26 @@ function FeedPage() {
       <hr />
         {posts.map(post => {
           return(
-            <Card key={post.id} hoverable  extra={<a href="#">Abrir</a>}
+            <Card key={post.id} hoverable
+            extra={
+            <span 
+            onClick=
+              {
+                (() => {
+                  history.push
+                  (`/post/${post.id}`)
+              })
+              }
+              style={{
+                color: 'blue',
+                fontWeight: 400,
+                fontSize: '1.2em',
+                fontFamily: 'Nanum Gothic, sans-serif',
+              }}
+            >
+              Abrir
+            </span>}
+
             title={post.username} bordered="true"
               style={{ 
                 width: '48.3vw',
