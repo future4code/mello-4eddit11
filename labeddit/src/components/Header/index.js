@@ -42,11 +42,18 @@ function Header() {
     window.localStorage.removeItem('user');
     // Atualização da sessão utilizada no contexto
     setSession(clearedSession);
+    history.push('/');
   };
 
   const goToLogin = () => {
     if (!session.authenticated) {
       history.push('/');
+    }
+  };
+
+  const goToRegister = () => {
+    if (!session.authenticated) {
+      history.push('/register');
     }
   };
 
@@ -92,18 +99,20 @@ function Header() {
             justifyContent: 'space-between',
           }}
         >
-          <Dropdown overlay={navMenu} trigger={['click']}>
-            <Button
-              style={{
-                width: '100%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}
-            >
-              Home <DownOutlined />
-            </Button>
-          </Dropdown>
+          {session.authenticated && (
+            <Dropdown overlay={navMenu} trigger={['click']}>
+              <Button
+                style={{
+                  width: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                }}
+              >
+                Home <DownOutlined />
+              </Button>
+            </Dropdown>
+          )}
         </Col>
 
         <Col span={8} className='gutter-row' style={{ display: 'flex' }}>
@@ -118,40 +127,35 @@ function Header() {
           />
         </Col>
 
-        <Col span={6} className='gutter-row'>
-          <Space
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <Button
-              onClick={() => history.push('/feed')}
-              type='text'
-              style={{ color: '#fafafa' }}
+        <Col span={5} className='gutter-row'>
+          {session.authenticated && (
+            <Space
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
             >
-              Popular
-            </Button>
-            <Button
-              onClick={() => history.push('/feed')}
-              type='text'
-              style={{ color: '#fafafa' }}
-            >
-              All
-            </Button>
-            <Button
-              onClick={() => history.push('/createpost')}
-              type='text'
-              style={{ color: '#fafafa' }}
-            >
-              Create Post
-            </Button>
-          </Space>
+              <Button
+                onClick={() => history.push('/feed')}
+                type='text'
+                style={{ color: '#fafafa' }}
+              >
+                Popular
+              </Button>
+              <Button
+                onClick={() => history.push('/feed')}
+                type='text'
+                style={{ color: '#fafafa' }}
+              >
+                All
+              </Button>
+            </Space>
+          )}
         </Col>
 
         <Col
-          span={4}
+          span={5}
           className='gutter-row'
           style={{
             display: 'flex',
@@ -169,17 +173,29 @@ function Header() {
                   justifyContent: 'space-between',
                 }}
               >
-                <span>Username</span> <DownOutlined />
+                <span>
+                  {session.authenticated ? session.user.username : 'username'}
+                </span>{' '}
+                <DownOutlined />
               </Button>
             </Dropdown>
           ) : (
-            <Button
-              type='primary'
-              onClick={goToLogin}
-              style={{ width: '100%', maxWidth: '150px' }}
-            >
-              Join
-            </Button>
+            <>
+              <Button
+                type='secundary'
+                onClick={goToLogin}
+                style={{ width: '100%', maxWidth: '150px', marginRight: '8px' }}
+              >
+                Log In
+              </Button>
+              <Button
+                type='primary'
+                onClick={goToRegister}
+                style={{ width: '100%', maxWidth: '150px' }}
+              >
+                Register
+              </Button>
+            </>
           )}
         </Col>
       </Row>

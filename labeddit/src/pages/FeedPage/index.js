@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Get } from '../../services/api';
 import { useHistory } from 'react-router-dom'
+import CreatePost from '../../components/CreatePost/index';
 
 import { 
   FeedContainer,
@@ -37,7 +38,6 @@ function FeedPage() {
     .catch(error =>{
       console.log(error)
     })
-
   }
 
   const verifyToken = () => {
@@ -51,6 +51,8 @@ function FeedPage() {
     <FeedContainer>
       <FeedLeft />
       <CardContainer>
+      <CreatePost getPosts={getPosts} />
+      <hr />
         {posts.map(post => {
           return(
             <Card key={post.id} hoverable  extra={<a href="#">Abrir</a>}
