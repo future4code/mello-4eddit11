@@ -1,47 +1,76 @@
 import React, { useState, useEffect } from 'react';
 import { Put } from '../../services/api';
-import { useHistory } from 'react-router-dom';
-import CreatePost from '../../components/CreatePost/index';
 
-import { VotePostContainer, ArrowStyle } from './styles';
+import { VotePostContainer,
+     ArrowStyleUP,
+     ArrowStyleDown,
+     ArrowContainer
+     } from './styles';
 
 import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
 
-function VotePost( {post} ) {
+function VotePost( {post, getPosts} ) {
 
     const voteId = post.id;
-    const userVoteDirection = post.userVoteDirection
-
     const [vote, setVote] = useState(0);
+    const [votes, setVotes] = useState(post.votesCount);
+    const token = window.localStorage.getItem('token');
 
-    const PutVote = (userChoice) => {
+    const key = {
+        headers: {
+          Authorization: token
+        }
+      }
+
+    const PutVoteUP = () => {
 
         const body = {
-            direction: userVoteDirection
-        }
+            direction: 1
+        }   
 
-        if(userVoteDirection === 0){
-
-        }
-        
-
-        Put(`posts/:postId/vote`)
+        Put(`posts/${voteId}/vote`, body, key )
         .then(response =>{
-            console.log(response.data);
+            setVotes(votes +1)
+            console.log(response.data.success);
         })
         .catch(error =>{
             console.log(error.response)
         })
+
+        getPosts()
+    }
+
+    const PutVoteDown = () => {
+
+        const body = {
+            direction: -1
+        }   
+
+        Put(`posts/${voteId}/vote`, body, key )
+        .then(response =>{
+            setVotes(votes -1)
+            console.log(response.data.success);
+        })
+        .catch(error =>{
+            console.log(error.response)
+        })
+
+        getPosts()
     }
 
     return(
 
         <VotePostContainer>
-            <ArrowStyle>
-            <ArrowUpOutlined onClick={PutVote}/>
-                {post.votesCount}
-            <ArrowDownOutlined onClick={PutVote} />
-            </ArrowStyle>
+            <ArrowContainer>
+                <ArrowStyleUP active={post.userVoteDirection}>
+                    <ArrowUpOutlined onClick={PutVoteUP}/>
+                </ArrowStyleUP>
+                    {votes}
+                <ArrowStyleDown active={post.userVoteDirection}>
+                    <ArrowDownOutlined onClick={PutVoteDown} />
+                </ArrowStyleDown>
+            </ArrowContainer>
+            
 
         </VotePostContainer>
     );
