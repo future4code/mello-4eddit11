@@ -58,7 +58,7 @@ function FeedPage() {
         {posts.map(post => {
           return(
             <VoteCardContainer>
-              <VotePost post={post}/>
+              <VotePost post={post} getPosts={getPosts}/>
             <Card key={post.id} hoverable
             extra={
             <span 
