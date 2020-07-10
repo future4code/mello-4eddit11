@@ -70,5 +70,4 @@ function FeedPage() {
     </FeedContainer>
   );
 }
-
 export default FeedPage;
