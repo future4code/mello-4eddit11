@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Get } from '../../services/api';
 import { useHistory } from 'react-router-dom';
 import CreatePost from '../../components/CreatePost/index';
+import VotePost from '../../components/VotePost/index';
 
 import { 
   FeedContainer,
   FeedLeft,
   CardContainer,
-  FeedRight
+  FeedRight,
+  VoteCardContainer
 }
 from './styles';
 
@@ -55,6 +57,8 @@ function FeedPage() {
       <hr />
         {posts.map(post => {
           return(
+            <VoteCardContainer>
+              <VotePost post={post}/>
             <Card key={post.id} hoverable
             extra={
             <span 
@@ -81,6 +85,7 @@ function FeedPage() {
                 marginBottom: '2.5vh' }}>
               {post.text}
             </Card>
+            </VoteCardContainer>
           )
         })}
 
