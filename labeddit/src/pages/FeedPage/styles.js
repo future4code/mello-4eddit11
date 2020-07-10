@@ -24,9 +24,15 @@ export const CardContainer = styled.div `
     background-color: #CFCCC7;
     padding: 1vh;
 `
-
 export const FeedRight = styled.div `
 
     width: 25vw;
     min-height: 100vh;
+`
+export const VoteCardContainer = styled.div `
+
+    max-width: 48vw;
+    display: flex;
+    flex-flow: row;
+    min-height: 3vh;
 `
