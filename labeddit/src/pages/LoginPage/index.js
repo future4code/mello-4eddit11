@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Layout, Form, Input, Button, Checkbox } from 'antd';
+import { Layout, Form, Input, Button, Checkbox, Typography } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import AuthContext from '../../contexts/SessionContext';
 import { Post } from '../../services/api';
@@ -12,6 +12,7 @@ function LoginPage() {
   const { setSession } = useContext(AuthContext);
 
   const { Content } = Layout;
+  const { Title } = Typography;
 
   const login = async (values) => {
     const body = {
@@ -42,7 +43,17 @@ function LoginPage() {
   };
 
   return (
-    <Content>
+    <Content
+      style={{
+        height: '55.422vh',
+        padding: '16px',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <Title style={{ textAlign: 'center' }}>Login</Title>
       <Form
         name='normal_login'
         initialValues={{
