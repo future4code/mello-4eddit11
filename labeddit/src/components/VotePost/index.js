@@ -31,13 +31,12 @@ function VotePost( {post, getPosts} ) {
         Put(`posts/${voteId}/vote`, body, key )
         .then(response =>{
             setVotes(votes +1)
-            console.log(response.data.success);
         })
         .catch(error =>{
             console.log(error.response)
         })
 
-        getPosts()
+        getPosts(voteId)
     }
 
     const PutVoteDown = () => {
@@ -55,7 +54,7 @@ function VotePost( {post, getPosts} ) {
             console.log(error.response)
         })
 
-        getPosts()
+        getPosts(voteId)
     }
 
     return(

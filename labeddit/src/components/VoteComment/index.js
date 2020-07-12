@@ -6,7 +6,7 @@ import { VoteCommentContainer } from './styles';
 
 import { CaretUpOutlined, CaretDownOutlined } from '@ant-design/icons';
 
-function VoteComment( { commentId, postId, commentCount } ) {
+function VoteComment( { commentId, postId, commentCount, getEspecificPost } ) {
 
     const idComment = commentId
     const idPost = postId;
@@ -26,11 +26,12 @@ function VoteComment( { commentId, postId, commentCount } ) {
 
         await Put(`posts/${idPost}/comment/${idComment}/vote`, body, key)
         .then(response =>{
-            console.log(response)
         })
         .catch(error =>{
             console.log(error)
         })
+
+        getEspecificPost(idPost)
     }
 
     const VoteCommentDown = async() => {
@@ -40,11 +41,12 @@ function VoteComment( { commentId, postId, commentCount } ) {
 
         await Put(`posts/${idPost}/comment/${idComment}/vote`, body, key)
         .then(response =>{
-            console.log(response.data)
         })
         .catch(error =>{
             console.log(error.data)
         })
+
+        getEspecificPost(idPost)
     }
 
     return(
