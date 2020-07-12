@@ -34,7 +34,6 @@ function PostDetail(){
       await Get(`posts/${postId}`, key)
       .then(response => {
         setPost(response.data.post)
-        console.log(response)
       })
       .catch(error =>{
         console.log(error)
@@ -78,7 +77,7 @@ function PostDetail(){
                     }}
                   >{comment.text}
                   </Card>
-                  <VoteComment commentId={comment.id} commentCount={comment.votesCount} postId={postId} />
+                  <VoteComment commentId={comment.id} commentCount={comment.votesCount} postId={postId} getEspecificPost={getEspecificPost} />
                 </>
               );
             })}
