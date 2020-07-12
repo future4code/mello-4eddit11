@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { Get } from '../../services/api';
+import VoteComment from '../../components/VoteComment/index';
 
 import { Card } from 'antd';
 
@@ -59,18 +60,25 @@ function PostDetail(){
             <PostContainer>
               <Card title={post.username}>
                 {post.text}
-            </Card> 
-
+            </Card>
+            <hr />
+            Comentários: 
             {post.comments && post.comments.map(comment => {
               return(
                 <>
-                  <hr />
+                <hr />
                   <Card key={comment.id}
                     style={{
-                      fontSize: '0.9em',
-                      backgroundColor: 'lightgray'
+                      fontSize: '1em',
+                      backgroundColor: 'lightgray',
+                      color: 'black',
+                      fontWeight: '400',
+                      border: 'solid black thin'
+                    
                     }}
-                  >{comment.text}</Card>
+                  >{comment.text}
+                  </Card>
+                  <VoteComment commentId={comment.id} commentCount={comment.votesCount} postId={postId} />
                 </>
               );
             })}
