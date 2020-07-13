@@ -7,7 +7,7 @@ import { VotePostContainer,
      ArrowContainer
      } from './styles';
 
-import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
+import { CaretUpOutlined, CaretDownOutlined } from '@ant-design/icons';
 
 function VotePost( {post, getPosts} ) {
 
@@ -16,11 +16,7 @@ function VotePost( {post, getPosts} ) {
     const [votes, setVotes] = useState(post.votesCount);
     const token = window.localStorage.getItem('token');
 
-    const key = {
-        headers: {
-          Authorization: token
-        }
-      }
+    const key = { headers: { Authorization: token } }
 
     const PutVoteUP = () => {
 
@@ -48,7 +44,6 @@ function VotePost( {post, getPosts} ) {
         Put(`posts/${voteId}/vote`, body, key )
         .then(response =>{
             setVotes(votes -1)
-            console.log(response.data.success);
         })
         .catch(error =>{
             console.log(error.response)
@@ -62,11 +57,11 @@ function VotePost( {post, getPosts} ) {
         <VotePostContainer>
             <ArrowContainer>
                 <ArrowStyleUP active={post.userVoteDirection}>
-                    <ArrowUpOutlined onClick={PutVoteUP}/>
+                    <CaretUpOutlined onClick={PutVoteUP}/>
                 </ArrowStyleUP>
                     {votes}
                 <ArrowStyleDown active={post.userVoteDirection}>
-                    <ArrowDownOutlined onClick={PutVoteDown} />
+                    <CaretDownOutlined onClick={PutVoteDown} />
                 </ArrowStyleDown>
             </ArrowContainer>
             

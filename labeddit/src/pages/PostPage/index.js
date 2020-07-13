@@ -57,7 +57,18 @@ function PostDetail(){
         <PostDetailContent>
           <PostLeft />
             <PostContainer>
-              <Card title={post.username}>
+              <Card title={post.username}
+              extra={<span 
+                onClick = { ( () => { history.push (`/`) } ) }
+                  style={{
+                    color: 'blue',
+                    fontWeight: 400,
+                    fontSize: '1.15em',
+                    fontFamily: 'Nanum Gothic, sans-serif',
+                    cursor: 'pointer'
+                  }}
+                > Voltar
+                </span>}>
                 {post.text}
             </Card>
             <hr />

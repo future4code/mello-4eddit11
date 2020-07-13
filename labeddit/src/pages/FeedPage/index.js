@@ -9,9 +9,10 @@ import {
   FeedLeft,
   CardContainer,
   FeedRight,
-  VoteCardContainer
-}
-from './styles';
+  VoteCardContainer,
+  EachCardContainer,
+  VoteAndCardContainer
+} from './styles';
 
 import { Card } from 'antd';
 
@@ -20,36 +21,27 @@ function FeedPage() {
   const token = window.localStorage.getItem('token');
   const [posts, setPosts] = useState([]);
 
-  const key = {
-    headers: {
-      Authorization: token
-    }
-  }
+  const key = { headers: { Authorization: token } };
 
-  useEffect(() =>{
+  useEffect(() =>{ 
     getPosts()
     verifyToken()
-  }, [setPosts])
+  }, [setPosts,])
 
   const getPosts = async() => {
-
     await Get('/posts', key)
     .then(response =>{
       setPosts(response.data.posts)
-    })
-    .catch(error =>{
+    }).catch(error =>{
       console.log(error)
-    })
-  }
+    })}
 
   const verifyToken = () => {
-
     if(token === null){
       history.push('/')
-    }
-  }
+    }}
 
-  return (
+  return (<>
     <FeedContainer>
       <FeedLeft />
       <CardContainer>
@@ -57,41 +49,33 @@ function FeedPage() {
       <hr />
         {posts.map(post => {
           return(
-            <VoteCardContainer>
-              <VotePost post={post} getPosts={getPosts}/>
-            <Card key={post.id} hoverable
-            extra={
-            <span 
-            onClick=
-              {
-                (() => {
-                  history.push
-                  (`/post/${post.id}`)
-              })
-              }
-              style={{
-                color: 'blue',
-                fontWeight: 400,
-                fontSize: '1.2em',
-                fontFamily: 'Nanum Gothic, sans-serif',
-              }}
-            >
-              Abrir
-            </span>}
-
-            title={post.username} bordered="true"
-              style={{ 
-                width: '48.3vw',
-                marginBottom: '2.5vh' }}>
-              {post.text}
-            </Card>
-            </VoteCardContainer>
-          )
-        })}
-
-      </CardContainer>
+            <VoteAndCardContainer>
+              <VoteCardContainer>
+                <VotePost post={post} getPosts={getPosts} />
+              </VoteCardContainer>
+              <EachCardContainer>
+                <Card key={post.id} hoverable
+                  extra={<span 
+                  onClick = { ( () => { history.push (`/post/${post.id}`) } ) }
+                    style={{
+                      color: 'blue',
+                      fontWeight: 400,
+                      fontSize: '1.15em',
+                      fontFamily: 'Nanum Gothic, sans-serif',
+                    }}
+                  > Abrir
+                  </span>}
+                  title={post.username} bordered="true"
+                  style={{ 
+                    marginBottom: '2.5vh' }}>
+                <p> {post.text} </p>
+                </Card>            
+              </EachCardContainer>
+            </VoteAndCardContainer>
+          )})}
+        </CardContainer>
       <FeedRight />
     </FeedContainer>
-  );
-}
+  </>
+  );}
 export default FeedPage;
