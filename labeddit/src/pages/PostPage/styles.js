@@ -11,7 +11,7 @@ export const PostDetailContent = styled.div `
 
 export const PostLeft = styled.div `
 
-    width: 25vw;
+    width: 15vw;
     min-height: 100vh;
 `
 export const PostContainer = styled.div `
@@ -25,6 +25,6 @@ export const PostContainer = styled.div `
 `
 export const PostRight = styled.div `
 
-    width: 25vw;
+    width: 35vw;
     min-height: 100vh;
 `

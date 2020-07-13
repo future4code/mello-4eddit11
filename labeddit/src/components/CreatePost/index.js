@@ -2,23 +2,18 @@ import React, { useState, useEffect } from "react";
 import { Post } from '../../services/api';
 import { 
   CreatePostContainer,
-  CreateLeft,
-  PostContainer,
-  CreateRight
-} 
-from './styles';
+}  from './styles';
 
 import { 
   Form,
   Input,
   Col,
   Row,
-  Button
-}
-from 'antd';
+  Button,
+  message
+} from 'antd';
 
 import 'antd/dist/antd.css';
-
 
 function CreatePost( { getPosts } ) {
 
@@ -34,11 +29,7 @@ function CreatePost( { getPosts } ) {
     form.resetFields()
   };
 
-  let key = {
-    headers: {
-      Authorization: token
-    }
-  }
+  let key = { headers: { Authorization: token } };
 
   const body = {
     text: text,
@@ -46,36 +37,41 @@ function CreatePost( { getPosts } ) {
   }
 
   const Postar = async() => {
-
     await Post('/posts', body, key)
     .then(response => {
       setResp(response.data.success)
-      verify()
       console.log(response)
+      success()
+      verify()
+      onReset()
     })
     .catch(error => {
-      console.log(error)
+      erro()
+      console.log(error.response)
     })
   }
 
   useEffect(() => {
     verify()
-
-  }, [resp])
+  }, [])
 
   const verify = () => {
-    
     if(resp === true){
       getPosts()
-    }
-  }
+      setResp(false)
+    }}
 
-  console.log (resp)
+  const success = () => {
+      message.success('Mensagem enviada com sucesso');
+  };
+    
+  const erro = () => {
+      message.error('Erro ao enviar mensagem, tente novamente');
+  };
+
   return (
 
-    <CreatePostContainer>
-      
-        
+    <CreatePostContainer>      
           <Form  form={form} style={{marginTop: '2vh'}}>
             <Row gutter={[6, 6]}>
               <Col span={24}>
@@ -120,27 +116,18 @@ function CreatePost( { getPosts } ) {
             <Row>
             <Col span={24} style={{display: 'flex', justifyContent: 'flex-end'}}>
 
-              <button onClick={Postar}>
-                Reset
-              </button>
-
-              <Button type="primary" htmlType="submit"
+              <Button onClick={onReset}> Reset </Button>
+              <Button type="primary" htmlType="submit" onClick={Postar}
                style={{
                  marginLeft: '2vh',
                  marginBottom: '2vh',
                  marginRight: '2vh'}}
-              >
-                Comentar
+              > Comentar
               </Button>
-
               </Col>
             </Row>
           </Form>
-        
-    
     </CreatePostContainer>
-
   );
 }
-
 export default CreatePost;
